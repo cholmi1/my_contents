@@ -15,6 +15,10 @@ personal-hub-ledger-*.json
 backups/
 private/
 data/
+!src/data/
+src/data/*
+!src/data/samples.ts
+!src/data/csvSamples.ts
 *.personal.json
 
 # 비밀 설정
