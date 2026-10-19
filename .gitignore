@@ -1,0 +1,32 @@
+node_modules/
+dist/
+dist-ssr/
+coverage/
+playwright-report/
+test-results/
+.vite/
+*.local
+
+# 개인 데이터와 백업 파일은 절대 추적하지 않습니다.
+*.backup.json
+*.backup.jsonl
+personal-hub-hub-*.json
+personal-hub-ledger-*.json
+backups/
+private/
+data/
+*.personal.json
+
+# 비밀 설정
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# 운영체제/편집기
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

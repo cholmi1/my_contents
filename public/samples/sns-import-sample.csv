@@ -1,0 +1,6 @@
+플랫폼,채널명,주소,운영 상태,최근 게시일,메모
+Instagram,가상 생활 기록,https://example.com/instagram/life-log,운영 중,2026-10-12,테스트용 가상 채널
+블로그,가상 독서 노트,https://example.com/blog/reading,휴식 중,2026-08-30,기존 항목과 중복 후보
+YouTube,가상 취미 영상,https://example.com/youtube/hobby,운영 중,2026-09-18,영상 채널 예시
+회사 홍보 채널,가상 회사 계정,https://example.com/company-sns,운영 중,2026-10-01,회사 관련 기본 제외 예시
+잘못된 SNS 주소,javascript:alert(1),javascript:alert(1),운영 중,,주소 검증 예시
