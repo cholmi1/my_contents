@@ -14,7 +14,7 @@ personal-hub-hub-*.json
 personal-hub-ledger-*.json
 backups/
 private/
-data/
+/data/
 *.personal.json
 
 # 비밀 설정
