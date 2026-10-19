@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { RouteKey } from '../routes';
 import { ROUTE_LABELS, ROUTE_PATHS } from '../routes';
@@ -65,8 +65,13 @@ function NavLink({
   );
 }
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export function Layout({ active, children, status, warnings }: Props) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setDrawerOpen(false);
@@ -75,6 +80,38 @@ export function Layout({ active, children, status, warnings }: Props) {
   useEffect(() => {
     document.title = `${ROUTE_LABELS[active]} · 나의 생활 허브`;
   }, [active]);
+
+  useEffect(() => {
+    if (!drawerOpen || !drawerRef.current) return;
+    const drawer = drawerRef.current;
+    const menuButton = menuButtonRef.current;
+    const focusables = [...drawer.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
+      (element) => element.offsetParent !== null,
+    );
+    focusables[0]?.focus();
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setDrawerOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab' || focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const current = document.activeElement;
+      if (event.shiftKey && (current === first || !drawer.contains(current))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (current === last || !drawer.contains(current))) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      menuButton?.focus();
+    };
+  }, [drawerOpen]);
 
   return (
     <div className="app-shell">
@@ -104,6 +141,7 @@ export function Layout({ active, children, status, warnings }: Props) {
             className="icon-button"
             aria-label="메뉴 열기"
             aria-expanded={drawerOpen}
+            ref={menuButtonRef}
             onClick={() => setDrawerOpen(true)}
           >
             <MenuIcon />
@@ -167,6 +205,7 @@ export function Layout({ active, children, status, warnings }: Props) {
             role="dialog"
             aria-modal="true"
             aria-label="전체 메뉴"
+            ref={drawerRef}
             onClick={(event) => event.stopPropagation()}
           >
             <div className="drawer-head">
